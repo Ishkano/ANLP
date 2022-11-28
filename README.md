@@ -1,4 +1,4 @@
-# ANLP
+# Spam Detection
 
 Learning PyTorch with spam classification problem from:
 https://www.kaggle.com/datasets/team-ai/spam-text-message-classification?resource=download
