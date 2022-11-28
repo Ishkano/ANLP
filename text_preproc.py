@@ -2,8 +2,8 @@ import langid
 import pymorphy2
 from stop_words import get_stop_words
 
-import nltk
 '''
+import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -22,7 +22,10 @@ from glob import glob
 
 class TextPreproc():
 
-    def __init__(self, test_size=0.2, rebalance=True):
+    def __init__(self,
+                 data_path='SPAM text message 20170820 - Data.csv',
+                 test_size=0.2,
+                 rebalance=True):
 
         '''
         input data must be a Dataframe with columns:
@@ -30,8 +33,8 @@ class TextPreproc():
             - category: int (0/1)
         '''
 
-        self.data = self.load_data()
-        self.train_data, self.test_data = train_test_split(self.data, test_size=test_size, random_state=0)
+        self.data = self.load_data(data_path)
+        self.train_data, self.test_data = train_test_split(self.data, test_size=test_size, random_state=42)
 
         # print(len(self.train_data[self.train_data.target == 1]) / len(self.train_data))
         # --> 0.13406317300789664 --> classes are unbalansed!
@@ -58,11 +61,11 @@ class TextPreproc():
         self.test_features_df = pd.DataFrame(test_vect.toarray())
         self.test_features_df['target'] = [tmp for tmp in self.test_data['category']]
 
-    def load_data(self):
+    def load_data(self, data_path):
 
-        '''0 - ham, 1 - spam'''
+        '''0 - neutral, 1 - spam/fake'''
 
-        df = pd.read_csv(glob("*.csv")[0])
+        df = pd.read_csv(data_path)
         df.columns = [name.lower() for name in df.columns]
 
         df.category = pd.Categorical(df.category)
@@ -79,6 +82,7 @@ class TextPreproc():
 
     def get_vector_len(self):
         return self.vect_len
+
     def get_vectorizer(self):
         return self.vectorizer
 
@@ -128,8 +132,8 @@ class TextPreproc():
 if __name__ == "__main__":
 
     model = TextPreproc(rebalance=True)
-    '''train_data, test_data = model.get_train_test_preprocd()
-    print(test_data)'''
+    # train_data, test_data = model.get_train_test_preprocd()
+    # print(test_data)
 
     letter_arr = [
         "Hi, how are you feeling? You haven't written for a long time, so I thought something might have happened.",
