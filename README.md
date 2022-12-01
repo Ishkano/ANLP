@@ -8,4 +8,4 @@ Classification: simple 3-layer dense neural network.
 
 Test Error:
 - on validdation data: accuracy 98.8%
-- on real data : accuracy 61.54%
+- on real data : accuracy 61.54% 👎 
